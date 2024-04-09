@@ -6,34 +6,34 @@ import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { useCart } from "./context/CartContext";
 import { useRouter } from 'next/navigation';
-
+import { useData } from "./hooks/data";
 export default function Home() {
-  const [data, setData] = useState([]);
-  const {cart,addToCart}= useCart();
+  // const [data, setData] = useState([]);
+  const {data} = useData();
   const router = useRouter();
-  console.log(cart);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Corrected import for the 'get' function
-        const snapshot = await get(child(ref(database), "Products"));
+  console.log(data);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // Corrected import for the 'get' function
+  //       const snapshot = await get(child(ref(database), "Products"));
 
-        if (snapshot.exists()) {
-          const result = snapshot.val();
-          const filteredData = Object.values(result).filter(
-            (value) => value.status === "true"
-          );
-          setData(filteredData);
-        } else {
-          console.log("No data available");
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  //       if (snapshot.exists()) {
+  //         const result = snapshot.val();
+  //         const filteredData = Object.values(result).filter(
+  //           (value) => value.status === "true"
+  //         );
+  //         setData(filteredData);
+  //       } else {
+  //         console.log("No data available");
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
   const handleClick = (product) => {
     // Wrap router.push inside a function
     router.push(`/pages/Detail/${product.code}`);
