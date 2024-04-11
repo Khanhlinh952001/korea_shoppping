@@ -6,10 +6,14 @@ import { BsCart } from "react-icons/bs";
 import { FiMapPin } from "react-icons/fi";
 import { useCart } from '../context/CartContext';
 import Badge from '@mui/material/Badge';
+import { useRouter } from 'next/navigation';
+
 export default function Header() {
-
-    const { cart } = useCart();
-
+    const router = useRouter();
+    const { cartItems } = useCart();
+    const handleClick = () => {
+        router.push("/pages/CartDetail");
+      };
 
     return (
         <div className="h-24 bg-slate-50 flex justify-around pt-2">
@@ -53,9 +57,9 @@ export default function Header() {
                         <FaRegFaceLaughWink className='text-2xl' />
                         <h3 className=' ml-1 font-light cursor-pointer'>Tài khoản</h3>
                     </div>
-                    <div className='text-blue-600 flex px-4 py-2 rounded-xl hover:bg-blue-100'>
+                    <div className='text-blue-600 flex px-4 py-2 rounded-xl hover:bg-blue-100' onClick={handleClick}>
 
-                        <Badge badgeContent={cart.length } color="primary">
+                        <Badge badgeContent={cartItems.length } color="primary">
                             <BsCart className='text-2xl' />
                         </Badge>
 

@@ -5,21 +5,21 @@ import { createContext, useState, useContext } from 'react';
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 
   const addToCart = async (item) => {
-    await setCart([...cart, item]);
+    await setCartItems([...cartItems, item]);
     
   };
 
   const removeFromCart = (index) => {
-   const newCart = [...cart];
+   const newCart = [...cartItems];
     newCart.splice(index, 1);
-    setCart(newCart);
+    setCartItems(newCart);
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
       {children}
     </CartContext.Provider>
   );

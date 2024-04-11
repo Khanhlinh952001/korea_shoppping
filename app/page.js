@@ -1,53 +1,36 @@
 "use client"
-import { database } from "./data/firebaseConfig";
-import { ref, child, get } from "firebase/database";
-import { useState, useEffect } from "react";
+
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
-import { useCart } from "./context/CartContext";
 import { useRouter } from 'next/navigation';
-import { useData } from "./hooks/data";
+import { useData } from "./hooks/useData";
+import CircularProgress from "@mui/material/CircularProgress";
+
 export default function Home() {
-  // const [data, setData] = useState([]);
   const {data} = useData();
   const router = useRouter();
-  console.log(data);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // Corrected import for the 'get' function
-  //       const snapshot = await get(child(ref(database), "Products"));
-
-  //       if (snapshot.exists()) {
-  //         const result = snapshot.val();
-  //         const filteredData = Object.values(result).filter(
-  //           (value) => value.status === "true"
-  //         );
-  //         setData(filteredData);
-  //       } else {
-  //         console.log("No data available");
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
+ 
   const handleClick = (product) => {
-    // Wrap router.push inside a function
     router.push(`/pages/Detail/${product.code}`);
   };
 
-  console.log(data)
+  console.log(data);
+
+  if (!data) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress />
+      </div>
+    );
+  }
   return (
 
     <div className="mt-6 bg-slate-50 ml-6 rounded-xl h-full"> 
     <h1 className="ml-10 pt-4 text-2xl text-gray-600 font-semibold">Tất cả sản phẩm </h1>
-    <div className=" flex flex-wrap   ">
+    <div className=" flex flex-wrap ml-8 ">
           {data.map((product, index) => (
         <div onClick={() => handleClick(product)}  key={index} className=" hover:shadow-lg p-2 pb-0 m-2">
-          <div className="  mb-4 w-60">
+          <div className=" mb-4 w-40">
             <img src={product.img[0].url} alt={product.name} className=" rounded-lg w-60 h-auto" />
             <div className="mt-2">
               <h3 className="text-sm font-semibold text-gray-600 ">{product.name}</h3>
