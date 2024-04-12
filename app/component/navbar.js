@@ -2,7 +2,7 @@ import Link from "next/link"
 
 export default function NavBar() {
     return (
-        <div className="bg-slate-50 h-full px-8 rounded-xl">
+        <div className="bg-slate-50 h-full px-8 min-w-60 rounded-xl">
             <h2 className="pt-4 font-semibold text-slate-900 pb-2">Danh mục</h2>
             <Link href={"/"} className="flex bg-slate-200 px-2 rounded-xl">
                 <p className=" my-3 ml-6 font-semibold text-blue-600 text-md ">Tất cả</p>

@@ -17,25 +17,20 @@ export default function RootLayout({ children }) {
 
    
     <html lang="en">
-      <body className="h-full bg-slate-200">
-     
-          <Header />
-        <div className="flex px-32 bg-slate-200">
-          {/* div 1 */}
-          <div className="w-1/5 pt-4 mt-2 rounded-xl sticky">
-            <NavBar />
-          </div>
+    <body className="h-full bg-slate-200">
+  <Header />
+  <div className="flex px-6   bg-slate-200">
+    {/* div 1 */}
+    <div className="w-full md:w-1/5 sm:hidden  lg:block pt-4 mt-2 rounded-xl sticky top-0">
+      <NavBar />
+    </div>
 
-          {/* div 2 */}
-          <div className="w-5/6 rounded-xl">
-            {children}
-          </div>
-
-        </div>
-        
-
-
-      </body>
+    {/* div 2 */}
+    <div className="w-full md:w-full rounded-xl">
+      {children}
+    </div>
+  </div>
+</body>
     </html>
     </CartProvider>
   );
