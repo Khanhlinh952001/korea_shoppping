@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useCart } from "@/app/context/CartContext";
 import { useRouter } from "next/navigation"; // Thay đổi từ "next/navigation" sang "next/router"
+import Header from "@/app/component/header";
+
 
 export default function CartDetail() {
   const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity, calculateTotal } = useCart();
@@ -26,9 +28,12 @@ export default function CartDetail() {
   }
 
   return (
+
+   
     <div className="mt-6 bg-slate-50 ml-6 rounded-xl h-screen px-10">
       <h1 className="text-2xl pt-4 ml-4 text-gray-700">Chi tiết giỏ hàng</h1>
-      <div className="px-8 py-4 ml-4 border mt-5 w-full bg-white rounded-xl">
+      {
+        cartItems ?  <div className="px-8 py-4 ml-4 border mt-5 w-full bg-white rounded-xl">
         {cartItems.map((item, index) => (
           <div key={index} className="flex justify-between border-b py-2">
             <div>
@@ -65,14 +70,25 @@ export default function CartDetail() {
           </div>
         ))}
         <div className="text-end text-red-600">
-          <h1 className="text-lg">Tổng cộng : {(calculateTotal()*18.000).toLocaleString("en")} VND</h1> {/* Thêm () để gọi hàm calculateTotal */}
+          <h1 className="text-lg">Tổng cộng : {(calculateTotal() * 18.000).toLocaleString("en")} VND</h1> {/* Thêm () để gọi hàm calculateTotal */}
         </div>
-      </div>
-      <div className="flex justify-end mr-6 mt-4">
-        <button onClick={() => router.push("/")} className="bg-blue-500 text-white px-4 py-2 rounded-xl">Tiếp tục mua hàng</button>
-        <button className="bg-red-500 text-white ml-4 px-4 py-2 rounded-xl">Thanh toán</button>
-      </div>
+        <div className="flex justify-end mr-6 mt-4">
+          <button onClick={() => router.push("/")} className="bg-blue-500 text-white px-4 py-2 rounded-xl">Tiếp tục mua hàng</button>
+          <button className="bg-red-500 text-white ml-4 px-4 py-2 rounded-xl">Thanh toán</button>
+        </div>
+      </div>: <div className=" flex justify-center m-0">
+          <div className="text-center"> <img src="https://nghithao.vn/assets/images/no-cart.png" alt="chua co san pham" className="pt-20" />
+            <p className="text-gray-600 pt-10">Chua co san pham   <span onClick={()=>{router.push("/")}} className="text-blue-400 cursor-pointer ">tiep tuc mua sam</span> </p> 
+          </div>
+
+        </div> 
+       
+      }
+
+
     </div>
+
+
   );
 }
 

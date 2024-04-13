@@ -5,8 +5,8 @@ import { createContext, useState, useContext } from 'react';
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
-
+  const [cartItems, setCartItems] = useState([])
+   const [theme,setTheme] = useState(false);
   const addToCart = (detail, quantity) => {
     const existingItemIndex = cartItems.findIndex((cartItem) => cartItem.name === detail.name);
 
@@ -48,7 +48,7 @@ export const CartProvider = ({ children }) => {
   
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart,decreaseQuantity,increaseQuantity ,calculateTotal}}>
+    <CartContext.Provider value={{ cartItems,theme, addToCart, removeFromCart,decreaseQuantity,increaseQuantity ,calculateTotal}}>
       {children}
     </CartContext.Provider>
   );
