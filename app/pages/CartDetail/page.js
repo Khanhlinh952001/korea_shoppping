@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useCart } from "@/app/context/CartContext";
 import { useRouter } from "next/navigation"; // Thay đổi từ "next/navigation" sang "next/router"
-import Header from "@/app/component/header";
 
 
 export default function CartDetail() {

@@ -7,7 +7,6 @@ const AuthLayout = ({ children }) => {
   return (
     <div>
       <main>{children}</main> {/* Hiển thị nội dung của trang con */}
-     
     </div>
   );
 };

@@ -1,40 +1,83 @@
-// pages/register.js
+// SignUp.js
+"use client"
+import { useState } from 'react';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import {  ref, set } from "firebase/database";
+import { auth,database } from '@/app/data/firebaseConfig';
+import { useRouter } from 'next/navigation';
+export default function SignUp() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+ const router = useRouter();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Đăng ký thành công
+      const user = userCredential.user;
+      set(ref(database, 'usersMember/' + user.uid), {
+        uid: user.uid,
+        username: name,
+        email: email,
+        type: "user"
+      });
+     router.push("/");
+      // Thêm thông tin người dùng vào cơ sở dữ liệu
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // Xử lý lỗi
+      // ...
+    });
+  };
 
-import React from 'react';
-
-const RegisterPage = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-200 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Create an account</h2>
+    <div className="container mx-auto max-w-sm items-center text-gray-600 rounded-xl bg-slate-100 py-32 px-8 mt-8">
+      <h1 className="text-2xl font-bold text-center mb-4">Sign Up</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label htmlFor="name" className="block font-medium">Name</label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="block w-full px-4 py-2 rounded border border-gray-300"
+            required
+          />
         </div>
-        <form className="mt-8 space-y-6" action="#" method="POST">
-          <input type="hidden" name="remember" value="true" />
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div className='mb-3'>
-              <label htmlFor="username" className="sr-only">Username</label>
-              <input id="username" name="username" type="text" autoComplete="username" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Username" />
-            </div>
-            <div className='mb-3'>
-              <label htmlFor="email-address" className="sr-only">Email address</label>
-              <input id="email-address" name="email" type="email" autoComplete="email" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Email address" />
-            </div>
-            <div className='mt-3'>
-              <label htmlFor="password" className="sr-only">Password</label>
-              <input id="password" name="password" type="password" autoComplete="new-password" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Password" />
-            </div>
-          </div>
-
-          <div>
-            <button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-              Create account
-            </button>
-          </div>
-        </form>
+        <div className="mb-4">
+          <label htmlFor="email" className="block font-medium">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="block w-full px-4 py-2 rounded border border-gray-300"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="password" className="block font-medium">Password</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="block w-full px-4 py-2 rounded border border-gray-300"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Sign Up</button>
+        </div>
+      </form>
+      <div className="mb-4 text-center">
+        <a href="/pages/auth/login" className="text-blue-500 hover:underline">Already have an account? Sign In</a>
       </div>
     </div>
   );
-};
-
-export default RegisterPage;
+}

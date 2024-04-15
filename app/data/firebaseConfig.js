@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase } from "firebase/database";
+import { getAuth } from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyCfVXvQXBqU4Yyx3-naxapRQWYerV5iaAg",
   authDomain: "website-8015b.firebaseapp.com",
@@ -13,6 +14,8 @@ const firebaseConfig = {
   measurementId: "G-787Y451CY7"
 };
 
+
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 let analytics;
@@ -20,3 +23,4 @@ if (typeof window !== "undefined") {
   analytics = getAnalytics(app);
 }
 export const database = getDatabase(app);
+export const auth = getAuth(app);

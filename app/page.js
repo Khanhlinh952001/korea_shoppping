@@ -5,6 +5,7 @@ import { useData } from "./hooks/useData";
 import CircularProgress from "@mui/material/CircularProgress";
 import Login from "./pages/auth/login/page";
 import { useCart } from "./context/CartContext";
+
 export default function Home() {
   const { data} = useData();
   const {theme}= useCart();
