@@ -4,18 +4,19 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Rating from "@mui/material/Rating";
 import { useCart } from "@/app/context/CartContext";
 import { useDetail } from "@/app/hooks/useDetail";
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
-
+import { useAuth } from "@/app/hooks/useAuth";
 export default function ProductDetail({ params }) {
   const { addToCart } = useCart();
   const productId = params.productId;
+  const { client } = useAuth();
   const { detail } = useDetail(productId);
   const [quantity, setQuantity] = useState(1);
   const imageUrls = detail?.img && detail.img.map((image) => image.url);
-
+  const [img, setImg] = useState(0);
   const handleAddToCart = () => {
-    NotificationManager.success('Success', 'Add to cart',1000);
+    NotificationManager.success('Thành công ', 'Thêm vào giỏ hàng ', 1000);
     addToCart(detail, quantity);
   };
 
@@ -29,21 +30,25 @@ export default function ProductDetail({ params }) {
 
   return (
     <div className="mt-6 bg-slate-50 ml-6 rounded-xl h-full p-6">
-      <NotificationContainer/>
-      <h1 className="text-2xl pt-4 text-gray-700">Chi tiết sản phẩm</h1>
+      <NotificationContainer />
+      <h1 className="text-2xl  text-gray-700">Chi tiết sản phẩm</h1>
       <div className="flex flex-col md:flex-row justify-between mt-4">
-        <div className="md:w-1/2 md:mr-4">
-          <div className="rounded-xl border border-[#2663eb] overflow-hidden">
+
+        <div className="w-5/12 md:mr-4 border-r">
+          <h1 className="text-gray-800 text-xl text-center mb-2">Hình ảnh </h1>
+          <div className="rounded-xl items-center justify-center flex overflow-hidden transition-transform duration-300 transform hover:scale-110">
+            {/* anh chinh */}
             <img
-              src={imageUrls && imageUrls[0]}
+              src={imageUrls && imageUrls[img]}
               alt={detail.name}
-              className="w-full"
+              className="h-80"
             />
           </div>
-          <div className="flex flex-wrap justify-center md:justify-start mt-4">
+
+          <div className="flex flex-wrap justify-center   md:justify-start mt-10 border-t">
             {imageUrls &&
               imageUrls.map((image, index) => (
-                <div key={index} className="rounded-xl border m-2 overflow-hidden">
+                <div key={index} className="rounded-xl border  m-2 overflow-hidden" onClick={() => setImg(index)}>
                   <img
                     src={image}
                     alt={detail.name}
@@ -54,7 +59,8 @@ export default function ProductDetail({ params }) {
           </div>
         </div>
 
-        <div className="md:w-1/2 mt-4 md:mt-0 md:ml-4">
+        <div className="md:w-7/12 mt-4 md:mt-0 md:ml-4">
+          <h1 className="text-gray-800 text-xl text-center mb-2">Thông tin</h1>
           <div className="bg-white border rounded-xl mb-4 py-2 px-4">
             <h1 className="text-lg text-black font-bold">{detail.name}</h1>
             <p className="text-gray-700">{detail.description}</p>
@@ -79,8 +85,16 @@ export default function ProductDetail({ params }) {
                 alt="Shipping"
               />
               <div className="pl-4">
-                <p className="text-sm text-gray-700 mt-1">Bạn hãy nhập địa chỉ nhận hàng để được dự báo thời gian & chi phí giao hàng chính xác nhất.</p>
-                <button className="mt-1 text-sm text-[#2663eb] border px-3 py-1 rounded-lg border-[#2663eb]">Nhập địa chỉ</button>
+                {client?.address ?
+
+                  <p className="text-xl text-gray-800 font-semibold mt-4">{client?.address}</p> :
+                  <>
+                    <p className="text-sm text-gray-700 mt-1">Bạn hãy nhập địa chỉ nhận hàng để được dự báo thời gian & chi phí giao hàng chính xác nhất.</p>
+                    <button className="mt-1 text-sm text-[#2663eb] border px-3 py-1 rounded-lg border-[#2663eb]">Nhập địa chỉ</button>
+                  </>
+
+                }
+
               </div>
             </div>
           </div>
@@ -106,7 +120,7 @@ export default function ProductDetail({ params }) {
             </div>
             <h6 className="text-lg font-semibold text-gray-700 mt-2">Tạm tính</h6>
             <p className="font-bold text-xl text-red-600">{(detail.sales * 18.0 * quantity).toLocaleString("en")} VND</p>
-            <button onClick={handleAddToCart} className="w-full mt-4 py-2 rounded-xl text-white bg-[#ff434e]">Mua ngay</button>
+            <button onClick={() => { alert("Update") }} className="w-full mt-4 py-2 rounded-xl text-white bg-[#ff434e]">Mua ngay</button>
             <button onClick={handleAddToCart} className="w-full mt-2 py-2 rounded-xl text-blue-600 border border-blue-600">Thêm vào giỏ</button>
           </div>
         </div>

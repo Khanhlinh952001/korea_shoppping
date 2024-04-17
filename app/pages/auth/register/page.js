@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 export default function SignUp() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');
   const [password, setPassword] = useState('');
  const router = useRouter();
   const handleSubmit = (event) => {
@@ -17,10 +18,11 @@ export default function SignUp() {
       // Đăng ký thành công
       const user = userCredential.user;
       set(ref(database, 'usersMember/' + user.uid), {
-        uid: user.uid,
+       uid: user.uid,
         username: name,
         email: email,
-        type: "user"
+        type: "user",
+        address: address
       });
      router.push("/");
       // Thêm thông tin người dùng vào cơ sở dữ liệu
@@ -67,6 +69,17 @@ export default function SignUp() {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="block w-full px-4 py-2 rounded border border-gray-300"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="address" className="block font-medium">Address</label>
+          <input
+            type="text"
+            id="password"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
             className="block w-full px-4 py-2 rounded border border-gray-300"
             required
           />

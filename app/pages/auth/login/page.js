@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { auth } from '@/app/data/firebaseConfig';
 import {  signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from 'next/navigation';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,6 +18,7 @@ const router = useRouter();
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
+      NotificationManager.success('Login successful', 'Success');
       router.push("/")
       // ...
     })

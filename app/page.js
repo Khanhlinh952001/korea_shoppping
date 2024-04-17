@@ -2,40 +2,26 @@
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { useRouter } from 'next/navigation';
 import { useData } from "./hooks/useData";
-import CircularProgress from "@mui/material/CircularProgress";
-import Login from "./pages/auth/login/page";
 import { useCart } from "./context/CartContext";
-
+import { CircularProgress } from "@mui/material";
 export default function Home() {
-  const { data} = useData();
-  const {theme}= useCart();
+  const { data } = useData();
+  const { theme } = useCart();
   const router = useRouter();
   console.log(theme)
   const handleClick = (product) => {
     router.push(`/pages/detail/${product.code}`);
   };
-
-  if (!data) {
+  if (!data.length) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center mt-6 ml-6 rounded-xl items-center h-screen bg-slate-50">
         <CircularProgress />
       </div>
     );
   }
-
   return (
-<div>
-{/* login */}
-{theme && (
-  <div className="absolute  ">
-    <Login/>
-  </div>
-)}
-  
-
+    <div>
       <div className='mt-6 bg-slate-50 ml-6 rounded-xl h-full ' >
-
-        
         <h1 className="ml-10 pt-4 text-2xl text-gray-600 sm:text-lg font-semibold">Tất cả sản phẩm </h1>
         <div className="flex flex-wrap ml-8">
           <div className="flex flex-wrap ml-8">
@@ -59,7 +45,7 @@ export default function Home() {
                   <div className="flex justify-between mt-2">
                     <div>
                       <p className="text-gray-400 text-[12px] line-through">
-                        {(product.price * 18.000).toLocaleString('en')} VND
+                       {(product.price * 18.000).toLocaleString('en')} VND
                       </p>
                       <p className="text-red-600 font-semibold sm:text-sm">
                         {(product.sales * 18.000).toLocaleString('en')} VND
@@ -78,7 +64,7 @@ export default function Home() {
 
         </div>
       </div>
-</div>
+    </div>
 
   );
 }
