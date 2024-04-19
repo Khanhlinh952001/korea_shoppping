@@ -5,17 +5,18 @@ import { FiMapPin } from "react-icons/fi";
 import { useCart } from '../context/CartContext';
 import Badge from '@mui/material/Badge';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../hooks/useAuth';
+import {  useClient } from '../hooks/useClient';
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { signOut } from "firebase/auth";
 import { auth } from '../data/firebaseConfig';
 export default function Header() {
     const router = useRouter();
-    const { cartItems } = useCart();
-    const { client } = useAuth();
+    const { client } = useClient();
+    const cartLength = client && client.cart ? Object.keys(client.cart).length : 0;
+
     console.log(client ? client.username : "No username available");
     const handleClick = () => {
-        router.push("/pages/cartDetail");
+        router.push("/pages/CartDetail");
     };
     const handleLogout = () => {
         signOut(auth).then(() => {
@@ -86,7 +87,7 @@ export default function Header() {
                     }
 
                     <div className='text-blue-600 flex px-4 py-2 rounded-xl hover:bg-blue-100' onClick={handleClick}>
-                        <Badge badgeContent={cartItems.length} color="primary">
+                        <Badge badgeContent={cartLength} color="primary">
                             <BsCart className='text-2xl' />
                         </Badge>
                     </div>

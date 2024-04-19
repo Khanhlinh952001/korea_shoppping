@@ -3,17 +3,18 @@ import React, { useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useCart } from "@/app/context/CartContext";
 import { useRouter } from "next/navigation"; // Thay đổi từ "next/navigation" sang "next/router"
-
+import { useClient } from "@/app/hooks/useClient";
 
 export default function CartDetail() {
   const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity, calculateTotal } = useCart();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-
+  const {client ,cartProducts}= useClient();
   // useEffect(() => {
   //   setLoading(false); // Simulate loading time
   // }, []);
 
+  console.table(cartProducts)
   useEffect(() => {
     if (cartItems.length > 0) {
       setLoading(false); // Dừng hiển thị loading khi có dữ liệu trong giỏ hàng
@@ -22,9 +23,9 @@ export default function CartDetail() {
 
   // console.log(calculateTotal); // Không cần in ra calculateTotal ở đây
 
-  if (loading) {
-    return <CircularProgress />; // Hiển thị indicator khi đang tải dữ liệu
-  }
+  // if (loading) {
+  //   return <CircularProgress />; // Hiển thị indicator khi đang tải dữ liệu
+  // }
 
   return (
 

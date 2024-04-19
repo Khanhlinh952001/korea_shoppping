@@ -10,7 +10,7 @@ export default function Home() {
   const router = useRouter();
   console.log(theme)
   const handleClick = (product) => {
-    router.push(`/pages/detail/${product.code}`);
+    router.push(`/pages/Detail/${product.code}`);
   };
   if (!data.length) {
     return (

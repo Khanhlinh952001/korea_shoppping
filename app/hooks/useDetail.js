@@ -5,9 +5,8 @@ import { useState, useEffect } from "react";
 import { useData } from "./useData";
 
 
-export const useDetail = (productId,count) => {
+export const useDetail = (productId) => {
   const [detail,setDetail] = useState([]);
- const {data}= useData();
   useEffect(() => {
     const fetchData = async () => {
       try {
